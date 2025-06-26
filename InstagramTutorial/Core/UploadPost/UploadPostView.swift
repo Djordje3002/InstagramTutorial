@@ -1,28 +1,32 @@
 import SwiftUI
 import PhotosUI
+import AVFoundation
 
 struct UploadPostView: View {
     @State private var caption: String = ""
-    @State private var imagepickerPresented: Bool = false
+    @State private var showCamera: Bool = false
+    @State private var showPhotoPicker: Bool = false
     @StateObject private var viewModel = UploadPostViewModel()
-    @Binding var tabIndex : Int
+    @Binding var tabIndex: Int
     
     var body: some View {
         VStack {
-//            action tool bar
+            // Action toolbar
             HStack {
                 Button {
                     caption = ""
                     viewModel.selectedImage = nil
                     viewModel.postImage = nil
-                    tabIndex = 0
+                    showCamera = false // Ensure camera is dismissed
+                    showPhotoPicker = false // Ensure photo picker is dismissed
+                    tabIndex = 0 // Return to main tab
                 } label: {
                     Text("Cancel")
                 }
                 
                 Spacer()
                 
-                Text("New post")
+                Text("New Post")
                     .fontWeight(.semibold)
                 
                 Spacer()
@@ -36,7 +40,7 @@ struct UploadPostView: View {
             }
             .padding(.horizontal)
             
-//            post image and caption
+            // Post image and caption
             HStack(spacing: 8) {
                 if let image = viewModel.postImage {
                     image
@@ -50,12 +54,32 @@ struct UploadPostView: View {
             }
             .padding()
             
+            // Button to open photo library
+            HStack {
+                Button {
+                    showPhotoPicker.toggle()
+                } label: {
+                    Image(systemName: "photo.on.rectangle.angled")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                        .padding()
+                }
+                Spacer()
+            }
+            
             Spacer()
         }
         .onAppear {
-            imagepickerPresented.toggle()
+            showCamera = true // Open camera when view appears
         }
-        .photosPicker(isPresented: $imagepickerPresented, selection: $viewModel.selectedImage)
+        // Camera picker
+        .fullScreenCover(isPresented: $showCamera) {
+            CameraPickerView(selectedImage: $viewModel.postImage)
+                .ignoresSafeArea()
+        }
+        // Photo library picker
+        .photosPicker(isPresented: $showPhotoPicker, selection: $viewModel.selectedImage)
     }
 }
 
