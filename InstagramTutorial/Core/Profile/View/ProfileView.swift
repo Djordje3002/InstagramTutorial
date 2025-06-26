@@ -8,33 +8,35 @@
 import SwiftUI
 
 struct ProfileView: View {
+    
+    let user: User
+    let stories = Story.MOCK_STORIES
+    
     private let gridItems: [GridItem] = [
         .init(.flexible(), spacing: 1),
         .init(.flexible(), spacing: 1),
         .init(.flexible(), spacing: 1)
     ]
+    @State private var selectedFilter = InstagramViewModel.posts
+    @Namespace var animation
     
     var body: some View {
         ScrollView {
             VStack {
  //            header
                 HStack {
-                    HStack {
-                        Image(systemName: "lock")
-                        
-                        Text("djordjekartaljevic")
+                    HStack(spacing: 6) {
+                        Text(user.username)
                             .font(.headline)
-                        Image(systemName: "chevron.down")
+                        Image(systemName: "checkmark.seal.fill")
+                            .foregroundColor(.blue)
+
                         
                     }
                     Spacer()
                     HStack {
-                        Image("threads_logo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20)
-                        Image(systemName: "plus.square")
-                        Image(systemName: "line.3.horizontal")
+                        Image(systemName: "ellipsis")
+                        Image(systemName: "bell")
                     }
                 }
                 //            profile stats
@@ -43,7 +45,7 @@ struct ProfileView: View {
                         .frame(width: 100)
                     Spacer()
                     VStack(alignment: .leading) {
-                        Text("Djordje Kartaljevic")
+                        Text(user.fullName ?? "User")
                             .font(.headline)
                             .fontWeight(.semibold)
                             .padding(.bottom, 8)
@@ -61,15 +63,17 @@ struct ProfileView: View {
                     }
                 }
                 //            Bio and threads
-                VStack {
-                    Text("Bio bible verse ofc")
-                        .font(.callout)
+                VStack(alignment: .leading) {
+                    if let bio = user.bio {
+                        Text(user.bio ?? "")
+                            .font(.callout)
+                    }
                     HStack {
                         Image("threads_logo")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20)
-                        Text("djordjekartaljevic")
+                        Text(user.email ?? "")
                             .font(.callout)
                             .fontWeight(.semibold)
                     }
@@ -82,7 +86,7 @@ struct ProfileView: View {
                     Button {
                         print("edit")
                     } label: {
-                        Text("Edit profile")
+                        Text("Following")
                             .frame(width: (UIScreen.main.bounds.width - 72) / 2, height: 32)
                             .foregroundStyle(.black)
                             .overlay {
@@ -93,7 +97,7 @@ struct ProfileView: View {
                     Button {
                         print("edit")
                     } label: {
-                        Text("Share profile")
+                        Text("Message")
                             .frame(width: (UIScreen.main.bounds.width - 72) / 2, height: 32)
                             .foregroundStyle(.black)
                             .overlay {
@@ -118,23 +122,72 @@ struct ProfileView: View {
             .padding(.horizontal)
             //            posts reels and profile
             
-            
-            
-            VStack {
-                LazyVGrid(columns: gridItems, spacing: 1) {
-                    
-                    ForEach(0..<15, id: \.self) { index in
-                        Image("photo1")
-                            .resizable()
-                            .scaledToFill()
+            HStack {
+                ForEach(InstagramViewModel.allCases, id: \.rawValue) { item in
+                    VStack {
+                        Image(systemName: item.icon)
+                            .font(.title2)
+                            .frame(maxWidth: (UIScreen.main.bounds.width - 32) / 3 )
+                            .fontWeight(selectedFilter == item ? .semibold : .regular)
+                            .foregroundStyle(selectedFilter == item ? .black : .gray)
+                        if selectedFilter == item {
+                            Capsule()
+                                .foregroundStyle(.gray)
+                                .frame(width: 80, height: 3, alignment: .center)
+                                .matchedGeometryEffect(id: "filter", in: animation)
+                        } else {
+                            Capsule()
+                                .foregroundStyle(.clear)
+                                .frame(width: 80, height: 3, alignment: .center)
+                        }
+                    }
+                    .padding(.vertical, 6)
+                    .onTapGesture {
+                        withAnimation(.easeInOut) {
+                            selectedFilter = item
+                        }
                     }
                 }
             }
+            if selectedFilter == .posts {
+                VStack {
+                    LazyVGrid(columns: gridItems, spacing: 1) {
+                        
+                        ForEach(stories) { image in
+                            Image(image.imageName)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: (UIScreen.main.bounds.width - 10) / 2, height: 120)
+                                .clipped()
+                        }
+
+                    }
+                }
+            }
+            else if selectedFilter == .reels {
+                VStack {
+                    LazyVGrid(columns: gridItems, spacing: 1) {
+                        
+                        ForEach(stories) { image in
+                            Image(image.imageName)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: (UIScreen.main.bounds.width - 10) / 2, height: 120)
+                                .clipped()
+                        }
+
+                    }
+                }
+            }
+            else if selectedFilter == .profile {
+                Text("Profile")
+            }
+            
             Spacer()
         }
     }
 }
 
 #Preview {
-    ProfileView()
+    ProfileView(user: User.MOCK_USERS[0])
 }

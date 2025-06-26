@@ -8,8 +8,43 @@
 import SwiftUI
 
 struct CompleteSignUpView: View {
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 12) {
+            Spacer()
+            
+            Text("Welcome to instagram, djordjekartaljevic")
+                .font(.title2)
+                .fontWeight(.bold)
+                .padding(.top)
+                .padding(.horizontal, 24)
+                .multilineTextAlignment(.center)
+
+                Text("Click below to complete registration and start using Instagram")
+                    .font(.footnote)
+                    .foregroundStyle(.gray)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 24)
+
+            Button {
+                print("Complete sign up")
+            } label: {
+                Text("Complete Sign Up")
+                    .modifier(MainButtonModifier())
+            }
+
+            Spacer()
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Image(systemName: "chevron.left")
+                    .imageScale(.large)
+                    .onTapGesture {
+                        dismiss()
+                    }
+            }
+        }
     }
 }
 

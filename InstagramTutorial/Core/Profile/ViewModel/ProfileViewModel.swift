@@ -7,12 +7,19 @@
 
 import SwiftUI
 
-struct ProfileViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+enum InstagramViewModel: Int, CaseIterable {
+    case posts
+    case reels
+    case profile
+    
+    var icon: String {
+        switch self {
+        case .posts:
+            return "house"
+        case .reels:
+            return "film"
+        case .profile:
+            return "person.circle"
+        }
     }
-}
-
-#Preview {
-    ProfileViewModel()
 }

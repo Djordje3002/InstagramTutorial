@@ -1,17 +1,12 @@
-//
-//  StoriesView.swift
-//  InstagramTutorial
-//
-//  Created by Djordje on 23. 6. 2025..
-//
-
 import SwiftUI
 
 struct StoriesView: View {
+    let stories = Story.MOCK_STORIES
+    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
-                ForEach(1..<10, id: \.self) { index in
+                ForEach(stories) { story in
                     VStack {
                         Circle()
                             .strokeBorder(
@@ -22,10 +17,19 @@ struct StoriesView: View {
                                 ),
                                 lineWidth: 3
                             )
-                            .background(Circle().fill(Color.gray)) // Placeholder image
+                            .background(
+                                Circle()
+                                    .fill(Color.gray)
+                                    .overlay(
+                                        Image(story.imageName)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .clipShape(Circle())
+                                    )
+                            )
                             .frame(width: 70, height: 70)
                         
-                        Text("User \(index)")
+                        Text(story.username)
                             .font(.caption)
                             .frame(width: 70)
                             .lineLimit(1)

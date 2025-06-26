@@ -1,15 +1,37 @@
-//
-//  FeedView.swift
-//  InstagramTutorial
-//
-//  Created by Djordje on 23. 6. 2025..
-//
-
 import SwiftUI
 
 struct FeedView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            ScrollView {
+                VStack {
+                    StoriesView()
+                }
+                LazyVStack(spacing: 32) {
+                    ForEach(Post.MOCK_POSTS) { post in
+                        FeedCell(post: post)
+                    }
+                }
+                .padding(.top, 4)
+            }
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline) 
+
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Image("instagram_logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 46)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Image(systemName: "heart")
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Image(systemName: "paperplane")
+                }
+            }
+        }
     }
 }
 
