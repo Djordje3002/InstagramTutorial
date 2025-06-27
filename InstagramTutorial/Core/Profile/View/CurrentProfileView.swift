@@ -36,7 +36,14 @@ struct CurrentProfileView: View {
                             .scaledToFit()
                             .frame(width: 20)
                         Image(systemName: "plus.square")
-                        Image(systemName: "line.3.horizontal")
+                        Button {
+                            Task {
+                                try await AuthService.shared.signoOut()
+                            }
+                        } label: {
+                            Image(systemName: "line.3.horizontal")
+                                .foregroundStyle(.black)
+                        }
                     }
                 }
                 //            profile stats
