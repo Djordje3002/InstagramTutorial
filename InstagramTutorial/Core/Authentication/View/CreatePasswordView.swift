@@ -1,5 +1,5 @@
 //
-//  CompleteSignUpView.swift
+//  CreateUsernameView.swift
 //  InstagramTutorial
 //
 //  Created by Djordje on 23. 6. 2025..
@@ -7,33 +7,38 @@
 
 import SwiftUI
 
-struct CompleteSignUpView: View {
+struct CreatePasswordView: View {
+    @State private var password: String = ""
     @Environment(\.dismiss) var dismiss
-    
+
     var body: some View {
         VStack(spacing: 12) {
-            Spacer()
-            
-            Text("Welcome to instagram, djordjekartaljevic")
+            Text("Create password")
                 .font(.title2)
                 .fontWeight(.bold)
                 .padding(.top)
-                .padding(.horizontal, 24)
-                .multilineTextAlignment(.center)
 
-                Text("Click below to complete registration and start using Instagram")
+            VStack {
+                Text("You will use this password must be at lease six characters long")
                     .font(.footnote)
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)
-
-            Button {
-                print("Complete sign up")
+                
+                SecureField("Password", text: $password)
+                    .autocapitalization(.none)
+                    .modifier(IGTextFieldModifier())
+                    .padding(.top)
+            }
+            
+            NavigationLink {
+                CompleteSignUpView()
+                    .navigationBarBackButtonHidden()
             } label: {
-                Text("Complete Sign Up")
+                Text("Next")
                     .modifier(MainButtonModifier())
             }
-
+            
             Spacer()
         }
         .toolbar {
@@ -42,12 +47,15 @@ struct CompleteSignUpView: View {
                     .imageScale(.large)
                     .onTapGesture {
                         dismiss()
-                    }
+                }
             }
         }
     }
 }
 
+
 #Preview {
-    CompleteSignUpView()
+    NavigationStack {
+        CreatePasswordView()
+    }
 }
