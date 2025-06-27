@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CreateUsernameView: View {
-    @State private var username: String = ""
+    @EnvironmentObject var viewModel: RegistrationViewModel
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -19,17 +19,17 @@ struct CreateUsernameView: View {
                 .padding(.top)
 
             VStack {
-                Text("You will use this username in to your account")
+                Text("Choose a username for your account")
                     .font(.footnote)
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
-                
-                TextField("Username", text: $username)
+
+                TextField("Username", text: $viewModel.username)
                     .autocapitalization(.none)
                     .modifier(IGTextFieldModifier())
                     .padding(.top)
             }
-            
+
             NavigationLink {
                 CreatePasswordView()
                     .navigationBarBackButtonHidden(true)
@@ -37,7 +37,7 @@ struct CreateUsernameView: View {
                 Text("Next")
                     .modifier(MainButtonModifier())
             }
-            
+
             Spacer()
         }
         .toolbar {
@@ -46,15 +46,15 @@ struct CreateUsernameView: View {
                     .imageScale(.large)
                     .onTapGesture {
                         dismiss()
-                }
+                    }
             }
         }
     }
 }
 
-
 #Preview {
     NavigationStack {
         CreateUsernameView()
+            .environmentObject(RegistrationViewModel())
     }
 }

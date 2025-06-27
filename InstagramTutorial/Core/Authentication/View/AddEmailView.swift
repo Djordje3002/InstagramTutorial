@@ -1,14 +1,8 @@
-//
-//  AddEmailView.swift
-//  InstagramTutorial
-//
-//  Created by Djordje on 23. 6. 2025..
-//
 import SwiftUI
 
 struct AddEmailView: View {
-    @State private var email: String = ""
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var viewModel: RegistrationViewModel
 
     var body: some View {
         VStack(spacing: 12) {
@@ -22,8 +16,8 @@ struct AddEmailView: View {
                     .font(.footnote)
                     .foregroundStyle(.gray)
                     .multilineTextAlignment(.center)
-                
-                TextField("Email", text: $email)
+
+                TextField("Email", text: $viewModel.email)
                     .autocapitalization(.none)
                     .modifier(IGTextFieldModifier())
                     .padding(.top)
@@ -51,9 +45,10 @@ struct AddEmailView: View {
     }
 }
 
-
 #Preview {
     NavigationStack {
         AddEmailView()
+            .environmentObject(RegistrationViewModel()) 
     }
 }
+

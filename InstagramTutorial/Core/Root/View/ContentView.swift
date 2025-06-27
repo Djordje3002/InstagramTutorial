@@ -1,15 +1,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var viewModel = ContentViewModel()
-    
+    @StateObject var viewModel = ContentViewModel()
+    @StateObject var registrationViewModel = RegistrationViewModel()
+
     var body: some View {
         VStack {
             Group {
                 if viewModel.userSession == nil {
                     LoginView()
-                }else {
+                        .environmentObject(registrationViewModel)
+                } else {
                     MainTabView()
+                        .environmentObject(registrationViewModel)
                 }
             }
         }
@@ -19,3 +22,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+
