@@ -3,6 +3,7 @@ import SwiftUI
 struct SearchView: View {
     @State private var searchText: String = ""
     @FocusState private var isFocused: Bool
+    @StateObject var viewModel = SearchViewModel()
     
     private let gridItems: [GridItem] = [
         .init(.flexible(), spacing: 1),
@@ -16,12 +17,13 @@ struct SearchView: View {
                 ScrollView {
                     if isFocused || !searchText.isEmpty {
                         LazyVStack {
-                            ForEach(User.MOCK_USERS) { user in
+                            ForEach(viewModel.users) { user in
                                 NavigationLink(value: user) {
                                     HStack {
-                                        Image(user.profileImageUrl ?? "photo1")
+                                        Image(systemName: "person.circle")
                                             .resizable()
                                             .scaledToFill()
+                                            .foregroundStyle(.gray)
                                             .frame(width: 40, height: 40)
                                             .clipShape(Circle())
                                         

@@ -48,8 +48,12 @@ struct CurrentProfileView: View {
                 }
                 //            profile stats
                 HStack(alignment: .top) {
-                    Circle()
-                        .frame(width: 100)
+                    Image(systemName: "person.circle")
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundStyle(.gray)
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
                     Spacer()
                     VStack(alignment: .leading) {
                         Text("Djordje Kartaljevic")
