@@ -65,9 +65,11 @@ struct ProfileView: View {
                 //            Bio and threads
                 VStack(alignment: .leading) {
                     if let bio = user.bio {
-                        Text(user.bio ?? "")
+                        Text(bio)
                             .font(.callout)
                     }
+                    
+                    Text(user.username)
                     HStack {
                         Image("threads_logo")
                             .resizable()

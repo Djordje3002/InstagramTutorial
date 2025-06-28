@@ -5,16 +5,12 @@ struct ContentView: View {
     @StateObject var registrationViewModel = RegistrationViewModel()
 
     var body: some View {
-        VStack {
-            Group {
-                if viewModel.userSession == nil {
-                    LoginView()
-                        .environmentObject(registrationViewModel)
-                } else {
-                    MainTabView()
-                        .environmentObject(registrationViewModel)
-                }
-            }
+        if viewModel.userSession == nil {
+            LoginView()
+                .environmentObject(registrationViewModel)
+        } else if let currentUser = viewModel.currentUser {
+            MainTabView(user: currentUser)
+                .environmentObject(registrationViewModel)
         }
     }
 }
