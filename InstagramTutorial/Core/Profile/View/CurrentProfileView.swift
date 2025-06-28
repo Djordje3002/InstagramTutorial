@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CurrentProfileView: View {
+    
+    let user: User
     private let gridItems: [GridItem] = [
         .init(.flexible(), spacing: 1),
         .init(.flexible(), spacing: 1),
@@ -15,6 +17,7 @@ struct CurrentProfileView: View {
     ]
     @State private var selectedFilter = InstagramViewModel.posts
     @Namespace var animation
+    @State private var showEditProfile = false
     
     var body: some View {
         ScrollView {
@@ -24,7 +27,7 @@ struct CurrentProfileView: View {
                     HStack {
                         Image(systemName: "lock")
                         
-                        Text("djordjekartaljevic")
+                        Text(user.username)
                             .font(.headline)
                         Image(systemName: "chevron.down")
                         
@@ -48,12 +51,8 @@ struct CurrentProfileView: View {
                 }
                 //            profile stats
                 HStack(alignment: .top) {
-                    Image(systemName: "person.circle")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundStyle(.gray)
-                        .frame(width: 100, height: 100)
-                        .clipShape(Circle())
+                    Circle()
+                        .frame(width: 100)
                     Spacer()
                     VStack(alignment: .leading) {
                         Text("Djordje Kartaljevic")
@@ -82,7 +81,7 @@ struct CurrentProfileView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20)
-                        Text("djordjekartaljevic")
+                        Text(user.email ?? "user@gmail.com")
                             .font(.callout)
                             .fontWeight(.semibold)
                     }
@@ -93,7 +92,7 @@ struct CurrentProfileView: View {
                 //            edit profile and share button
                 HStack {
                     Button {
-                        print("edit")
+                        showEditProfile.toggle()
                     } label: {
                         Text("Edit profile")
                             .frame(width: (UIScreen.main.bounds.width - 72) / 2, height: 32)
@@ -128,6 +127,7 @@ struct CurrentProfileView: View {
                 
                 
             }
+            
             .padding(.horizontal)
             //            posts reels and profile
             
@@ -172,9 +172,12 @@ struct CurrentProfileView: View {
             
             Spacer()
         }
+        .fullScreenCover(isPresented: $showEditProfile) {
+            Text("works")
+        }
     }
 }
 
 #Preview {
-    CurrentProfileView()
+    CurrentProfileView(user: User.MOCK_USERS[0])
 }

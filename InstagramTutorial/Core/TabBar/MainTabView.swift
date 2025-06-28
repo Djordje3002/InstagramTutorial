@@ -45,7 +45,7 @@ struct MainTabView: View {
                     Image(systemName: "play.square")
                 }.tag(3)
             
-            CurrentProfileView()
+            CurrentProfileView(user: user)
                 .onAppear {
                     selectedIndex = 4
                 }

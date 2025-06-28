@@ -121,7 +121,6 @@ struct ProfileView: View {
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 6).stroke(Color.gray, lineWidth: 1)
                                 }
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
                         }
                     }
                     Spacer()

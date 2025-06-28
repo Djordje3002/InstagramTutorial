@@ -1,18 +1,25 @@
-//
-//  EditprofileRowView.swift
-//  InstagramTutorial
-//
-//  Created by Djordje on 28. 6. 2025..
-//
-
 import SwiftUI
 
-struct EditprofileRowView: View {
+struct EditProfileRowView: View {
+    let title: String
+    let placeholder: String
+    @Binding var text: String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack(alignment: .top) {
+            Text(title)
+                .padding(.leading, 8)
+                .frame(width: 100, alignment: .leading)
+            
+            VStack(alignment: .leading) {
+                TextField(placeholder, text: $text)
+                Divider()
+            }
+        }
     }
 }
 
 #Preview {
-    EditprofileRowView()
+    EditProfileRowView(title: "Name", placeholder: "Enter your name", text: .constant("John Doe"))
 }
+
