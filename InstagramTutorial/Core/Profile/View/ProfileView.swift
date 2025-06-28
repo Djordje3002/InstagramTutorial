@@ -85,26 +85,44 @@ struct ProfileView: View {
                 
                 //            edit profile and share button
                 HStack {
-                    Button {
-                        print("edit")
-                    } label: {
-                        Text("Following")
-                            .frame(width: (UIScreen.main.bounds.width - 72) / 2, height: 32)
-                            .foregroundStyle(.black)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 6).stroke(Color.gray, lineWidth: 1)
-                            }
+                    if user.isCurrentUser {
+                        Button {
+                            print("edit")
+                        } label: {
+                            Text("Following")
+                                .frame(width: (UIScreen.main.bounds.width - 72) / 2, height: 32)
+                                .foregroundStyle(.black)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 6).stroke(Color.gray, lineWidth: 1)
+                                }
+                        }
+                        Spacer()
+                        Button {
+                            
+                        } label: {
+                            Text("Message")
+                                .frame(width: (UIScreen.main.bounds.width - 72) / 2, height: 32)
+                                .foregroundStyle(.black)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 6).stroke(Color.gray, lineWidth: 1)
+                                }
+                        }
+
                     }
-                    Spacer()
-                    Button {
-                        print("edit")
-                    } label: {
-                        Text("Message")
-                            .frame(width: (UIScreen.main.bounds.width - 72) / 2, height: 32)
-                            .foregroundStyle(.black)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 6).stroke(Color.gray, lineWidth: 1)
-                            }
+                    
+                    if !user.isCurrentUser {
+                        Button {
+                            
+                        } label: {
+                            Text("Follow")
+                                .frame(width: (UIScreen.main.bounds.width - 72) , height: 32)
+                                .foregroundStyle(.white)
+                                .background(.blue)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 6).stroke(Color.gray, lineWidth: 1)
+                                }
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                        }
                     }
                     Spacer()
                     Image(systemName: "person.badge.plus")
