@@ -29,5 +29,9 @@ class EditProfileViewModel: ObservableObject {
         
         self.profileImage = Image(uiImage: uiImage)
     }
+    
+    func updateUserData() async throws {
+        
+    }
 }
 
