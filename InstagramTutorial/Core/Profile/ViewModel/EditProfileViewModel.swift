@@ -12,6 +12,7 @@ import Firebase
 @MainActor
 class EditProfileViewModel: ObservableObject {
     
+    @Published var user: User
     @Published var selectedImage: PhotosPickerItem? {
         didSet { Task { await loadImage(fromItem: selectedImage) } }
     }
@@ -20,6 +21,10 @@ class EditProfileViewModel: ObservableObject {
     
     @Published var fullname: String = ""
     @Published var bio: String = ""
+    
+    init(user: User) {
+        self.user = user
+    }
     
     func loadImage(fromItem item: PhotosPickerItem?) async {
         guard let item = item else { return }
@@ -31,7 +36,14 @@ class EditProfileViewModel: ObservableObject {
     }
     
     func updateUserData() async throws {
+//        update profile image if change
         
+//        update name if change
+        if !fullname.isEmpty && user.fullName != fullname {
+            
+        }
+        
+//        update bio if change
     }
 }
 
