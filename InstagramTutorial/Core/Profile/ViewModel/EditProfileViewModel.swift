@@ -37,13 +37,20 @@ class EditProfileViewModel: ObservableObject {
     
     func updateUserData() async throws {
 //        update profile image if change
+        var data = [String: Any]()
         
 //        update name if change
         if !fullname.isEmpty && user.fullName != fullname {
-            
+            data["fullname"] = fullname
         }
         
 //        update bio if change
+        if !bio.isEmpty && user.bio != bio {
+            data["bio"] = bio
+        }
+        
+        if data.isEmpty { try await Firestore.firestore().collection("users").document(user.id).updateData(data) }
+        
     }
 }
 
