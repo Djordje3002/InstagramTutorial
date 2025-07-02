@@ -1,18 +1,24 @@
-//
-//  FeedViewModel.swift
-//  InstagramTutorial
-//
-//  Created by Djordje on 2. 7. 2025..
-//
-
 import SwiftUI
+import FirebaseFirestore
 
-struct FeedViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+@MainActor
+class FeedViewModel: ObservableObject {
+    @Published var posts = [Post]()
+    
+    private let postsCollection = Firestore.firestore().collection("posts")
+    
+    init() {
+        Task { await fetchPosts() }
     }
-}
-
-#Preview {
-    FeedViewModel()
+    
+    func fetchPosts() async {
+        do {
+            let snapshot = try await postsCollection.order(by: "timestamp", descending: true).getDocuments()
+            self.posts = snapshot.documents.compactMap { doc in
+                try? doc.data(as: Post.self)
+            }
+        } catch {
+            print("❌ Failed to fetch posts: \(error)")
+        }
+    }
 }
