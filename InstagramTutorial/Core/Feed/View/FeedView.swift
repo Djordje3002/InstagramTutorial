@@ -34,7 +34,7 @@ struct FeedView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink {
-                        MessageView()
+                        MessagesView(user: User.MOCK_USERS[0])
                     } label: {
                         Image(systemName: "paperplane")
                             .foregroundStyle(.black)
