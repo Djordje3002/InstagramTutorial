@@ -8,9 +8,27 @@
 import SwiftUI
 
 struct MessageView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+    @Environment(\.dismiss) private var dismiss
+
+        var body: some View {
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "xmark")
+                            .font(.title2)
+                            .padding()
+                    }
+                }
+                Spacer()
+                Text("This is the Paperplane Screen")
+                    .font(.largeTitle)
+                Spacer()
+            }
+            .navigationBarBackButtonHidden(true) // Hide the default back button if you want
+        }
 }
 
 #Preview {

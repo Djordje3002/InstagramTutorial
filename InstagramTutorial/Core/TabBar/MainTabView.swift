@@ -9,7 +9,13 @@ import SwiftUI
 
 struct MainTabView: View {
     let user: User
+    let posts: [Post]
     @State private var selectedIndex: Int = 0
+    
+//  isk ne mogu sad da se ebavam ali kad dodjem ce odradim:
+//    1. reels view samo ui
+//    2. messages nese muci napravi obicno
+//    3. pogledas app mozda neki settings nesto tako, mozda na stori da se udje kao sheet neki sa rendom sliku. like feature je izi i comment dodaj sheet. to je
     
     var body: some View {
         TabView(selection: $selectedIndex) {
@@ -37,7 +43,8 @@ struct MainTabView: View {
                     Image(systemName: "plus.square")
                 }.tag(2)
             
-            Text("Reels")
+            ReelsView(posts: posts)
+//            Text("Reels")
                 .onAppear {
                     selectedIndex = 3
                 }
@@ -58,5 +65,5 @@ struct MainTabView: View {
 }
 
 #Preview {
-    MainTabView(user: User.MOCK_USERS[0])
+    MainTabView(user: User.MOCK_USERS[0], posts: Post.MOCK_POSTS)
 }

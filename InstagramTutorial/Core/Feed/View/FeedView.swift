@@ -16,7 +16,7 @@ struct FeedView: View {
             }
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline) 
-
+            .scrollIndicators(.hidden)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Image("instagram_logo")
@@ -25,10 +25,20 @@ struct FeedView: View {
                         .frame(width: 100, height: 46)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Image(systemName: "heart")
+                    NavigationLink {
+                        NotificationsView()
+                    } label: {
+                        Image(systemName: "heart")
+                            .foregroundStyle(.black)
+                    }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Image(systemName: "paperplane")
+                    NavigationLink {
+                        MessageView()
+                    } label: {
+                        Image(systemName: "paperplane")
+                            .foregroundStyle(.black)
+                    }
                 }
             }
         }

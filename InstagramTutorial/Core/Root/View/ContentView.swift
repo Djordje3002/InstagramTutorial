@@ -9,7 +9,7 @@ struct ContentView: View {
             LoginView()
                 .environmentObject(registrationViewModel)
         } else if let currentUser = viewModel.currentUser {
-            MainTabView(user: currentUser)
+            MainTabView(user: currentUser, posts: Post.MOCK_POSTS)
                 .environmentObject(registrationViewModel)
         }
     }
