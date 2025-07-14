@@ -1,18 +1,30 @@
-//
-//  MessageFieldView.swift
-//  InstagramTutorial
-//
-//  Created by Djordje on 14. 7. 2025..
-//
-
 import SwiftUI
 
 struct MessageFieldView: View {
+    @EnvironmentObject var messagesManager: MessagesManager
+    @State private var messageText = ""
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            TextField("Enter your message...", text: $messageText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+
+            Button(action: sendMessage) {
+                Image(systemName: "paperplane.fill")
+                    .foregroundStyle(.blue)
+            }
+        }
+        .padding()
+    }
+
+    func sendMessage() {
+        guard !messageText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+        messagesManager.sendMessage(text: messageText)
+        messageText = ""
     }
 }
 
 #Preview {
-    MessageFieldView()
+    MessageFieldView().environmentObject(MessagesManager())
 }
+
